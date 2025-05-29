@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Joghurt-Experiment: Zahlungsbereitschaft</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      background-color: #f9f9f9;
+      text-align: center;
+      margin: 2em;
+    }
+    .product-container {
+      display: flex;
+      justify-content: center;
+      gap: 3em;
+      margin-top: 2em;
+      flex-wrap: wrap;
+    }
+    .product {
+      background-color: #fff;
+      padding: 1em;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      width: 300px;
+    }
+    .product img {
+      width: 100%;
+      height: auto;
+      border-radius: 8px;
+    }
+    input[type="number"] {
+      padding: 0.5em;
+      margin-top: 1em;
+      width: 100px;
+      font-size: 1em;
+    }
+  </style>
+</head>
+<body>
+  <h1>Wie viel würden Sie für dieses Produkt bezahlen?</h1>
+
+  <div id="experiment"></div>
+
+  <script>
+    // Zufällige Gruppenverteilung: 0 = Between-Makel, 1 = Between-Perfekt, 2 = Within
+    const condition = Math.floor(Math.random() * 3);
+
+    const experimentDiv = document.getElementById("experiment");
+
+    const data = {
+      makel: {
+        title: "8er-Pack mit Makel",
+        img: "./fruchtzwerg-8-makel.png",
+        id: "priceA"
+      },
+      perfekt: {
+        title: "6er-Pack in perfektem Zustand",
+        img: "./fruchtzwerg-6-perfekt.png",
+        id: "priceB"
+      }
+    };
+
+    if (condition === 0) {
+      // BETWEEN – nur Makel
+      experimentDiv.innerHTML = `
+        <div class="product">
+          <h2>${data.makel.title}</h2>
+          <img src="${data.makel.img}" alt="${data.makel.title}" />
+          <p>Wieviel würden Sie dafür bezahlen? (€)</p>
+          <input type="number" id="${data.makel.id}" min="0" step="0.1" />
+        </div>`;
+    } else if (condition === 1) {
+      // BETWEEN – nur Perfekt
+      experimentDiv.innerHTML = `
+        <div class="product">
+          <h2>${data.perfekt.title}</h2>
+          <img src="${data.perfekt.img}" alt="${data.perfekt.title}" />
+          <p>Wieviel würden Sie dafür bezahlen? (€)</p>
+          <input type="number" id="${data.perfekt.id}" min="0" step="0.1" />
+        </div>`;
+    } else {
+      // WITHIN – beide
+      experimentDiv.innerHTML = `
+        <div class="product-container">
+          <div class="product">
+            <h2>${data.makel.title}</h2>
+            <img src="${data.makel.img}" alt="${data.makel.title}" />
+            <p>Wieviel würden Sie dafür bezahlen? (€)</p>
+            <input type="number" id="${data.makel.id}" min="0" step="0.1" />
+          </div>
+          <div class="product">
+            <h2>${data.perfekt.title}</h2>
+            <img src="${data.perfekt.img}" alt="${data.perfekt.title}" />
+            <p>Wieviel würden Sie dafür bezahlen? (€)</p>
+            <input type="number" id="${data.perfekt.id}" min="0" step="0.1" />
+          </div>
+        </div>`;
+    }
+  </script>
+</body>
+</html>
